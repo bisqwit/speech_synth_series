@@ -1,0 +1,487 @@
+1	#include <map>
+1	#include <cmath>
+1	#include <tuple>
+1	#include <array>
+1	#include <vector>
+1	#include <locale>
+1	#include <string>
+1	#include <codecvt>
+1	#include <cassert>
+1	#include <iostream>
+1	#include <algorithm>
+1	#include <initializer_list>
+9	
+10	enum class record_modes { choose_randomly, trill, play_in_sequence };
+10	
+10	static std::map<char32_t/*record identifier*/,
+10`11	                std::tuple<record_modes`1:,float/*voice level*/,
+10`11	                           `1:std::vector<std::tuple<float/*gain*/,std::vector<float/*coefficients*/>>>`01:>> records
+10	{
+10	#include "records.inc"
+10	};
+30	
+30	struct prosody_element
+30	{
+35	    char32_t record;
+35	    unsigned n_frames;
+35	    float    relative_pitch;
+30	};
+40	
+	std::u32string english_convert(const std::u32string& text)
+	{
+	    std::array<std::vector<std::array<const char32_t*,4>>,26+1> rules;
+	    // Based on: Automatic translation of English text to phonetics,
+	    //           NRL Report 7948 (AD/A021 929), on 1976-01-21
+	static char32_t patterns[] = U""
+	".|'s||z,#:.e|'s||z,#|'s||z,|'||,|a| |@, |are| |0r, |ar|o|@r,|ar|#|er,^|as|#|eIs,|a|wa|@,|aw||O, :|any||eni,|a|^+#|eI#:|ally||@li, "
+	"|al|#|@l,|again||@gen,#:|ag|e|IdZ,|a|^+:#|&, :|a|^+ |eI,|a|^%|eI, |arr||@r,|arr||&r, :|ar| |0r,|ar| |3|ar||0r,|air||er,|ai||eI,|ay"
+	"||eI,|au||O,#:|al| |@l,#:|als| |@lz,|alk||Ok,|al|^|Ol, :|able||eIb@l,|able||@b@l, |be|^#|bI|ang|+|eIndZ,^|a|^#|eI,|a||&,|being||bi"
+	"IN, |both| |b@UT, |bus|#|bIz,|buil||bIl,|b||b, |ch|^|k,^e|ch||k,|ch||tS,|giv||gIv s|ci|#|saI,|ci|a|S,|ci|o|S,|ci|en|S,|c|+|s,|ck||"
+	"k,|com|%|kVm,|c||k,#:|ded| |dId,.e|d| |d,#:^e|d| |t, |de|^#|dI,|of| |@v |do| |du, |does||dVz, |doing||duIN, |dow||daU,|du|a|dZu,|d"
+	"||d,#:|e| |,#:|e|less|,':^|e| |, :|e| |i,#|ed| |d,#:|e|d ||ev|er|ev,|e|n+r|e,|e|^%|i,|eri|#|iri,|eri||erI,|ery||erI,#:|er|#|3,|er|"
+	"#|er,|er||3, |even||iven,#:|e|w|,t|ew||u,s|ew||ur|ew||u,d|ew||u,l|ew||u,z|ew||u,n|ew||u,j|ew||u,th|ew||u,ch|ew||u,sh|ew||u,|ew||ju"
+	",|e|o|i,#:s|es| |Iz,#:c|es| |Iz#:g|es| |Iz,#:z|es| |Iz,#:x|es| |Iz,#:j|es| |Iz,#:ch|es| |Iz,#:sh|es| |Iz,#:|e|s |,#:|ely| |li,#:|e"
+	"ment||ment,|eful||fUl|ee||ii,|earn||3n, |ear|^|3,|ead||ed,#:|ea| |i@,|ea|su|e,|ea||ii,|eigh||eI,|ei||i, |eye||aI,|ey||i,|eu||ju,|e"
+	"||e,|ful||fUl|f||f, |g|i^|g,|ge|t|ge,su|gges||gdZes,|gg||g,#|gn|%|n,#|gn| |n, b#|g||g,|g|+|dZ,|great||greIt,#|gh||,|g||g, |hav||h&"
+	"v |here||hir, |hour||aU3,|how||haU,|h|#|h,|h||, |i'm| |aIm, |ing| |IN, |in||In, |i| |aI,|in|d|aIn,|ier||i3,#:r|ied||id|ied| |aId,|"
+	"ien||ien,|ie|t|aIe, :|i|%|aI,|i|%|i,|ie||i,|i|^+:#|I,|ir|#|aIr,|iz|%|aIz,|is|%|aIz,|i|d%|aI,+^|i|^+|I|i|t%|aI,#:^|i|^+|I,#|i|g|aI,"
+	"|i|^+|aI,|ir||3,|igh||aI,|ild||aIld,|ique||ik,^|i|^#|aI,|i||I,|j||dZ, |k|n|,|k||k,|lo|c#|l@Ul|l||,#:^|l|%|@l,|lead||lid,|l||l,|mov"
+	"||muv,#|mm|#|m,|m||m,e|ng|+|ndZ,|ng|r|Ng,|ng|#|Ng,|ngl|%|Ng@l,|ng||N,|nk||Nk |now| |naU,#|ng| |Ng,|n||n,|orough||3@U,#:|or| |3,#:|"
+	"ors| |3z,|or||Or, |one||wVn,|ow||@U, |over||@Uv3,|ov||Vv|o|^%|@U,|o|^en|@U,|o|^i#|@U,|ol|d|@Ul,|ought||Ot,|ough||Vf, |ou||aU,h|ou|"
+	"s#|aU,|ous||@s,|our||Or,|ould||Ud,^|ou|^l|V|oup||up,|ou||aU,|oy||oI,|oing||@UIN,|oi||oI,|oor||Or,|ook||Uk,|ood||Ud,|oo||u,|o|e|@U,"
+	"|o| |@U,|oa||@U, |only||@Unli |once||wVns,|on't||@Unt,c|o|n|0,|o|ng|O, :^|o|n|V,i|on||@n,#:|on| |@n,#^|on||@n,|o|st |@U,|of|^|Of,|"
+	"other||VD3,|oss| |Os#:^|om||Vm,|o||0,|ph||f,|peop||piip,|pow||paU,|put| |pUt,|p||p,|quar||kwOr,|qu||kw,|q||k, |re|^#|ri,|r||r,|sh|"
+	"|S#|sion||Z@n,|some||sVm,#|sur|#|Z3,|sur|#|S3,#|su|#|Zu,#|ssu|#|Su,#|sed| |zd,#|s|#|z,|said||sed,^|sion||S@n,|s|s|,.|s| |z#:.e|s| "
+	"|z,#:^##|s| |z,#:^#|s| |s,u|s| |s, :#|s| |z, |sch||sk,|s|c+|,#|sm||zm,#|sn|'|z@n,|s||s, |the| |D@,|to| |tu|that| |D&t, |this| |DIs"
+	", |they||DeI, |there||Der,|ther||D3,|their||Der, |than| |D&n, |them| |Dem,|these| |Diz |then||Den,|through||Tru,|those||D@Uz,|thou"
+	"gh| |D@U, |thus||DVs,|th||T,#:|ted| |tId,s|ti|#n|tS,|ti|o|S,|ti|a|S|tien||S@n,|tur|#|tS3,|tu|a|tSu, |two||tu,|t||t, |un|i|jun, |un"
+	"||Vn, |upon||@pOn,t|ur|#|Ur,s|ur|#|Ur,r|ur|#|Ur,d|ur|#|Url|ur|#|Ur,z|ur|#|Ur,n|ur|#|Ur,j|ur|#|Ur,th|ur|#|Ur,ch|ur|#|Ur,sh|ur|#|Ur,"
+	"|ur|#|jUr,|ur||3,|u|^ |V,|u|^^|V,|uy||aI, g|u|#|g|u|%|,g|u|#|w,#n|u||ju,t|u||u,s|u||u,r|u||u,d|u||u,l|u||u,z|u||u,n|u||u,j|u||u,th"
+	"|u||u,ch|u||u,sh|u||u,|u||ju,|view||vju|v||v, |were||w3,|wa|s|w0,|wa|t|w0,|where||wer,|what||w0t,|whol||h@Ul,|who||hu,|wh||w,|war|"
+	"|wOr,|wor|^|w3,|wr||r,|w||w|x||ks,|young||jVN, |you||ju, |yes||jes, |y||j,#:^|y| |i,#:^|y|i|i, :|y| |aI, :|y|#|aI, :|y|^+:#|I, :|y"
+	"|^#|aI,|y||I,|z||z,";
+	    for(char32_t* s = patterns; *s; )
+	    {
+	        std::array<const char32_t*,4> row;
+	        for(unsigned n=0; n<4; ++n, *s++ = U'\0')
+	            for(row[n] = s; *s != U"|||,"[n]; ++s)
+	                {}
+	        unsigned category = 0;
+	        if(row[1][0] >= U'a' && row[1][0] <= U'z') category = 1 + (row[1][0] - U'a');
+	        rules[category].emplace_back(std::move(row));
+	    }
+	    auto match = [&](auto p, auto g)
+	    {
+	        auto in   = [&](char32_t c, std::u32string_view s) { return s.find(c) != std::string_view::npos; };
+	        auto cons = [&](char32_t c) { return in(c, U"bcdfghjklmnpqrstvwxyz"); };
+	        for(char32_t pat; (pat = p()) != U'\0'; )
+	            switch(pat)
+	            {
+	                case U'#': {unsigned n=0; for(; in(g(0), U"aeiou"); ++n) g(1); if(!n) return false; else break;}
+	                case U':': while(cons(g(0))) g(1); break;
+	                case U'^': if(!cons(g(1))) return false; else break;
+	                case U'.': if(!in(g(1), U"bdvgjlmnrwz")) return false; else break;
+	                case U'+': if(!in(g(1), U"eyi"        )) return false; else break;
+	                case U'%': // ER,E,ES,ED,ING,ELY (suffix)
+	                    if(char32_t c = g(1); c==U'i') { if(g(1)!=U'n' || g(1)!=U'g') return false; }
+	                    else if(c!=U'e') return false;
+	                    else if(char32_t c2 = g(1); c2==U'l') { if(g(1)!=U'y') return false; }
+	                    else if(c2!=U'r' && c2!=U's' && c2!=U'd') return false;
+	                    else break;
+	                case U' ': if(char32_t c = g(1); (c>=U'a'&&c<=U'z') || c==U'\'') return false; else break;
+	                default:  if(pat != g(1)) return false; else break;
+	            }
+	        return true;
+	    };
+	    std::u32string result;
+	    std::size_t position = 1;
+	    while(position < text.size())
+	    {
+	        unsigned category = 0;
+	        if(text[position] >= U'a' && text[position] <= U'z') category = 1 + (text[position] - U'a');
+	        for(const auto& rule: rules[category])
+	        {
+	            const char32_t* r_pat = rule[2], *l_pat = rule[0], *m_pat = rule[1];
+	            std::size_t m_size = std::u32string_view(m_pat).size(), r_pos = position+m_size;
+	            std::size_t l_size = std::u32string_view(l_pat).size(), l_pos = position-1;
+	            // Match middle, right and left parts
+	            if(text.compare(position, m_size, m_pat) == 0
+	            && match([&]{return *r_pat++;},                             [&](int n){ char32_t c = text[r_pos]; r_pos+=n; return c; })
+	            && match([&]{return l_size==0 ? U'\0' : l_pat[--l_size]; }, [&](int n){ char32_t c = text[l_pos]; l_pos-=n; return c; }))
+	            {
+	                result   += rule[3];
+	                position += m_size;
+	                category = ~0u;
+	                break;
+	            }
+	        }
+	        if(category != ~0u)
+	            result += text[position++]; // Unparseable character
+	    }
+	    // At this point, the result string is pretty much an ASCII representation of IPA.
+	    // Now just touch up it a bit to convert it into typical Finnish pronunciation.
+	    static const char32_t tab[][2][5] = {
+	    {U"@U", U"”y"}   /* OW |goat,shOW,nO|                               */
+	   ,{ U"@", U"”" }   /* AX |About,commA,commOn|                         */
+	   ,{ U"A", U"aa"}   /* AA |stARt,fAther|                               */
+	   ,{ U"&", U"„" }   /* AE |trAp,bAd|                                   */
+	   ,{ U"V", U"a" }   /* AH |strUt,bUd,lOve|                             */
+	   ,{U"Or", U"oo"}   /* AR |wARp| */
+	   ,{ U"O", U"oo"}   /* AO |thOUGHt,lAW|                                */
+	   ,{U"aU", U"au"}   /* AW |mOUth,nOW|                                  */
+	   ,{U"aI", U"ai"}   /* AY |prIce,hIGH,trY|                             */
+	   ,{U"e@", U"e”"}   /* EA |squARE,fAIR|                                */
+	   ,{U"eI", U"ei"}   /* EY |fAce,dAy,stEAk|                             */
+	   ,{ U"e", U"e" }   /* EH |drEss,bEd|                                  */
+	   ,{ U"3", U"”r"}   /* ER |nURse,stIR,cOURage|                         */
+	   ,{U"ir", U"i”"}   /* IA |nEAR,hERE,sErious|                          */
+	   ,{U"i@", U"ia"}   /* EO |mEOw|                                       */
+	   ,{ U"I", U"i" }   /* IH |Intend,basIc,kIt,bId,hYmn|                  */
+	   ,{ U"i", U"i" }   /* IY |happY,radIation,glorIous,flEEce,sEA,machIne|*/
+	   ,{U"0r", U"aa"}   /* ar |ARe */
+	   ,{ U"0", U"o" }   /* OH |lOt,Odd,wAsh|                               */
+	   ,{U"oI", U"oi"}   /* OY |chOIce,bOY|                                 */
+	   ,{U"U@", U"ue"}   /* UA |inflUence,sitUation,annUal,cURE,pOOR,jUry|  */
+	   ,{ U"U", U"u" }   /* UH |fOOt,gOOd,pUt,stimUlus,edUcate|             */
+	   ,{ U"u", U"uu"}   /* UW |gOOse,twO,blUE|                             */
+	   ,{U"Z@", U"s”"}   /* viSIOn  */
+	   ,{ U"b", U"p" }   /* B |Back,BuBBle,joB|                             */
+	   ,{U"dZ", U"ts"}   /* JH |JuDGE,aGe,solDIer|                          */
+	   ,{ U"d", U"d" }   /* D |Day,laDDer,oDD|                              */
+	   ,{ U"D", U"t" }   /* DH |THis,oTHer,smooTH|                          */
+	   ,{ U"f", U"v" }   /* F |Fat,coFFee,rouGH,PHysics|                    */
+	   ,{ U"g", U"k" }   /* G |Get,GiGGle,GHost|                            */
+	   ,{ U"h", U"h" }   /* HH |Hot,WHole,beHind|                           */
+	   ,{U"k&", U"kh„"}  /* CA |CAt,CAptain| */
+	   ,{U"k@", U"kh”"}
+	   ,{ U"k", U"k" }   /* K |Key,CoCK,sCHool|                             */
+	   ,{ U"l", U"l" }   /* L |Light,vaLLey,feeL|                           */
+	   ,{ U"m", U"m" }   /* M |More,haMMer,suM|                             */
+	   ,{ U"n", U"n" }   /* N |Nice,KNow,fuNNy,suN|                         */
+	   ,{U"Ng", U"  "}   /* NG "coNGratulations" */
+	   ,{ U"N", U"  "}   /* NG |riNG,loNG,thaNks,suNG|                      */
+	   ,{ U"p", U"p" }   /* P |Pen,coPy,haPPen|                             */
+	   ,{ U"r", U"r" }   /* R |Right,soRRy,aRRange|                         */
+	   ,{U"sw", U"sv"}   /* SW |SWap| */
+	   ,{ U"s", U"s" }   /* S |Soon,CeaSe,SiSter|                           */
+	   ,{ U"S", U"s" }   /* SH |SHip,Sure,staTIon|                          */
+	   ,{U"tS", U"ts"}   /* CH |CHurCH,maTCH,naTUre|                        */
+	   ,{U"ts", U"ts"}   /* TS |TSai|                                       */
+	   ,{U"tu", U"tju"}  /* TU |TUlip| */
+	   ,{ U"t", U"t" }   /* T |Tea,TighT,buTTon|                            */
+	   ,{ U"T", U"t" }   /* TH |THing,auTHor,paTH|                          */
+	   ,{ U"v", U"v" }   /* V |View,heaVy,moVe|                             */
+	   ,{ U"w", U"v" }   /* W |Wet,One,When,qUeen|                          */
+	   ,{ U"j", U"j" }   /* Y |Yet,Use,bEAuty|                              */
+	   ,{ U"z", U"s" }   /* Z |Zero,Zone,roSeS,buZZ|                        */
+	   ,{ U"Z", U"s" }   /* ZH |pleaSure,viSIon|                            */
+	};
+	    for(std::size_t pos=0; pos<result.size(); ++pos)
+	        for(const auto& row: tab)
+	        {
+	            std::u32string_view l = row[0], r = row[1];
+	            if(result.compare(pos, l.size(), l.data()) == 0)
+	                { result.replace(pos, l.size(), r); pos += r.size()-1; break; }
+	        }
+	    return result;
+	}
+	
+40	std::vector<prosody_element> phonemize(const std::string& text)
+40	{
+49	    // Canonize the spelling: Convert to lowercase.
+49	    std::locale locale("fi_FI.UTF-8");
+50	    std::string input = text; // FIXME: This does not actually convert Ž properly into „. Can someone figure out why?
+50	    std::use_facet<std::ctype<char>>(locale).tolower(&input[0],&input[0]+input.size());
+50	    // Convert from utf8 to utf32 so we can index characters directly
+50`51`53	    `12:std::u32string wip = std::wstring_convert<`2:std::codecvt_utf8<char32_t>,char32_t`12:>{}.`01:from_bytes(input);
+51	    // Canonize the spelling: Replace symbols with phonetic letters.
+52	    static const std::initializer_list<std::pair<std::u32string_view,std::u32string_view>> canonizations
+52	    {
+55	        { U"0", U"nolla" }, { U"1", U"yksi" },    { U"xx",U"kx" },{ U"zz",U"tz" },{ U"cch",U"tch" },{ U"¤", U"nj" },{ U"n ", U"  " },
+55^	        { U"2", U"kaksi" }, { U"3", U"kolme" },   { U"sch",U"s" },{ U"ch",U"ts" },{ U"ng", U"  " }, { U"nk",U" k" },{ U"np", U"mp" },
+55^^	        { U"4", U"nelj„" }, { U"5", U"viisi" },   { U"x", U"ks" },{ U"z", U"ts" },{ U"w", U"v" },   { U"b", U"p" },
+55^^^	        { U"6", U"kuusi" }, { U"7", U"seitsem„n"},{ U"c", U"s" }, { U"¢", U"s" }, { U"£", U"s" },   { U"f", U"v" },
+55^^^^	        { U"8", U"kahdeksan"},{U"9",U"yhdeks„n"}, { U"‚", U"e" }, { U"q", U"k" }, { U"g", U"k" },   { U"+", U"plus"},{U"/",U"kautta"},
+	        { U"0", U"zero" },{ U"1", U"one" },
+	        { U"2", U"two" }, { U"3", U"three" },
+	        { U"4", U"four" },{ U"5", U"five" }, { U"/", U"slash"},
+	        { U"6", U"six" }, { U"7", U"seven"}, { U"+", U"plus"},
+	        { U"8", U"eight"},{ U"9", U"nine"}, { U"c+", U"ceeplus"},
+52	    };
+60	    for(std::size_t pos = 0; pos < wip.size(); ++pos)
+60	    r1: for(const auto& r: canonizations)
+60	            if(wip.compare(pos, r.first.size(), r.first) == 0)
+60^	                { wip.replace(pos, r.first.size(), r.second); pos -= std::min(pos, std::size_t(3)); goto r1; }
+	    wip = english_convert(U" " + wip + U" ");//
+70	
+70	    // Next, convert punctuation into pauses.
+70	    wip.insert(0, U"q<"); // Add glottal stop in the beginning
+71	    static const std::initializer_list<std::pair<std::u32string_view,std::u32string_view>> replacements
+71	    {
+75	        { U".", U">òòòòòòq<" }, { U"!", U">òòòòòòq<" }, { U"'", U"q" },  { U";", U"òòòò|q" },
+75^	        { U"?", U">òòòòòòq<" }, { U":", U">òòòòòòq<" }, { U"-", U"q" },  { U",", U"òò|q"   }
+71	    };
+78^^^^^^^^^^^^	    for(std::size_t pos = 0; pos < wip.size(); ++pos)
+78^^^^^^^^^^^^	    r2: for(const auto& r: replacements)
+78^^^^^^^^^^^^	            if(wip.compare(pos, r.first.size(), r.first) == 0)
+78^^^^^^^^^^^^	                { wip.replace(pos, r.first.size(), r.second); pos -= std::min(pos, std::size_t(3)); goto r2; }
+80	
+80	    auto vow   = [&](char32_t c) { return c==U'a'||c==U'e'||c==U'i'||c==U'o'||c==U'u'||c==U'y'||c==U'„'||c==U'”'; };
+1100^	    auto alpha = [&](char32_t c) { return (c>=U'a'&&c<=U'z')||vow(c); };
+1100^^	    auto cons  = [&](char32_t c) { return alpha(c) && !vow(c); };
+1100^^^	    auto endpu = [&](char32_t c) { return c==U'>'||c==U'ò'||c==U'q'||c==U'"'; };
+80	
+80	    // Create a pitch curve.: First, divide the phrase into syllables`1: (not perfect, but does not matter).
+80	    std::vector<unsigned> syllable_id(wip.size()); // TODO
+80	    unsigned cur_syl = 1;
+1110	    for(std::size_t pos = 0; pos < wip.size(); )
+1110	    {
+1120	        while(pos < wip.size() && !alpha(wip[pos])) syllable_id[pos++] = cur_syl++;
+1120^	        while(pos < wip.size() && cons(wip[pos]))   syllable_id[pos++] = cur_syl;
+1120^^	        while(pos < wip.size() && vow(wip[pos]))    syllable_id[pos++] = cur_syl;
+1120^^^^	        while(pos < wip.size() && cons(wip[pos]))
+1125	        {
+1130	            if(vow(wip[pos+1])) break;
+1130	            syllable_id[pos++] = cur_syl;
+1125	        }
+1120^^^^^	        while(pos < wip.size() && endpu(wip[pos]))  syllable_id[pos++] = cur_syl;
+1120^^^^^^	        cur_syl++;
+1110	    }
+1150	
+90	    std::vector<float> pitch_curve(cur_syl, 1.f);
+1160	    std::size_t begin=0, end=syllable_id.size()-1;
+1160	    float first=1.f, last=1.f, midpos = 0.8f;
+1160	    for(std::size_t pos = 0; pos < wip.size(); ++pos)
+1160	    {
+1165	        if(wip[pos] == U'<' || wip[pos] == U'|')
+1165	        {
+1170	            // Find the matching '>', or '|'
+1170	            begin  = pos;
+1170	            end = wip.find_first_of(U">|", pos+1);
+1170	            if(end == wip.npos) end = wip.size();
+1170	            first  = (wip[pos] == U'<' ? 1.4f : 1.25f);
+1170^	            last   = (wip[end] == U'|' ? 1.0f: 0.86f);
+1170	            midpos = 0.7 + drand48()*0.1;
+1170	            --end;
+1165	        }
+1180	        // Interpolate pitch between the syllables that have '<' or '|' and those that have '>' or '|'
+1180	        float fltpos = midpos;
+1180	        if(syllable_id[pos] == syllable_id[begin]) fltpos = 0;
+1180^	        if(syllable_id[pos] == syllable_id[end])   fltpos = 0.95 + drand48()*0.1;
+1185	        fltpos += drand48()*0.2;
+1190	        pitch_curve[syllable_id[pos]] = first + (last-first)*fltpos;
+1160	    }
+100	
+100	    // Finally convert the phonemes into record mappings with timing and intonation information.
+101	    std::vector<prosody_element> elements;
+115	    std::map<char32_t, std::vector<std::tuple<char32_t,unsigned,unsigned,unsigned>>> maps;
+115	    for(const char32_t* p = U"mm890M200:nn890N200:  890¡200:aa793:ee793:ii793:oo793:uu793:yy793:ò-700:"
+115	      U"„„793:””793:k-590k400:p-590p400:t-590t400:d-590d400:ll793:ss793:vv990:jj990:rr990:hh990:qq100:"; *p; ++p)
+115	        for(auto& m = maps[*p++]; *p != U':'; ) { m.emplace_back(p[0],p[1]-U'0',p[2]-U'0',p[3]-U'0'); p += 4; }
+105	    for(std::size_t pos = 0; pos < wip.size(); ++pos)
+105	    {
+110	        std::size_t endpos = pos;
+130	        auto rep_len = [&]{ unsigned r=0; for(; wip[endpos+1] == wip[endpos]; ++r) ++endpos; return r; };
+130	        bool next_to_vowel = (wip[pos+1] != wip[pos] && vow(wip[pos+1])) || (pos>0 && vow(wip[pos-1]));
+120	        if(auto i = maps.find(wip[pos]); i != maps.end())
+120	            for(auto[ch,len,replen,slen]: i->second)
+120`133	                elements.push_back(prosody_element{ch, len`1: + replen*rep_len() + slen*next_to_vowel`01:, pitch_curve[syllable_id[pos]] });
+120	        else
+120	            switch(wip[pos])
+120	            {
+135	                case U' ':
+135^	                case U'\r': case U'\v':
+136^	                case U'\n': case U'\t':
+140	                    // Whitespace. If the previous character was a vowel
+140	                    // and the next one is a vowel as well, add a glottal stop.
+145	                    if((pos > 0 && vow(wip[pos-1]) && vow(wip[pos+1])) || wip[pos] != U' ')
+145	                    {
+150	                        elements.push_back(prosody_element{ U'-', 3, pitch_curve[syllable_id[pos]] });
+150^	                        elements.push_back(prosody_element{ U'q', 1, pitch_curve[syllable_id[pos]] });
+145	                    }
+146	                    break;
+160	                // Skip unknown characters
+160	                default:
+160	                    std::cout << "Skipped unknown char: '" << (char)wip[pos] << "' (" << wip[pos] << ")\n";
+160	                case U'>': case U'<': case U'|':
+160	                    break;
+120	            }
+120	        pos = endpos;
+105	    }
+101	    return elements;
+40	}
+300	
+300	#include <SFML/Audio/SoundStream.hpp>
+300	#include <SFML/System/Sleep.hpp>
+300	#include <mutex>
+325	
+325	std::vector<short> audio;
+325	std::mutex         audio_lock;
+325	std::size_t        audio_pos = 0;
+310	
+310	struct MyAudioDriver: public sf::SoundStream
+310	{
+315	    MyAudioDriver(unsigned rate)
+315	    {
+320	        initialize(1, rate);
+320	        play();
+315	    }
+330	
+330	    static constexpr unsigned chunk_size = 2048;
+330	    short       sample_buffer[chunk_size];
+330	
+330	    virtual bool onGetData(Chunk& data)
+330	    {
+340	        unsigned num_samples = chunk_size;
+342	        audio_lock.lock();
+340	        for(unsigned n=0; n<num_samples; ++n)
+340	            sample_buffer[n] = (audio_pos < audio.size()) ? audio[audio_pos++] : 0;
+343`344	        audio_lock.`1:un`01:lock();
+340	
+340	        data.sampleCount = num_samples;
+340^	        data.samples     = sample_buffer;
+340	        return true;
+330	    }
+331^^^	    virtual void onSeek(sf::Time)
+331^^^	    {
+331^^^	    }
+310	};
+400	
+401	static constexpr unsigned MaxOrder = 256;
+2100	
+2100	template<typename T>
+2101	static double get_with_hysteresis(T& value, int speed)
+2101	{
+2110	    double newval = value;
+2110	    static std::map<T*, double> last;
+2110	    auto i = last.lower_bound(&value);
+2110	    if(i == last.end() || i->first != &value)
+2110	        { last.emplace_hint(i, &value, newval); return newval; }
+2110	    return i->second = i->second*(1-std::exp2(speed)) + newval*std::exp2(speed);
+2101	}
+401	
+401	static float bp[MaxOrder] = {0};
+401	static unsigned offset=0, count=0;
+401	
+402	static void synth(const std::tuple<float,std::vector<float>>& frame, float volume,
+402	                  float breath, float buzz, float pitch, unsigned rate, unsigned n_samples)
+402	{
+2000	    bool broken = false;
+2180	
+2180	    static float coeff[MaxOrder]={0};
+410`2180	    const auto& `1:src_`01:coeff = std::get<1>(frame);
+2180	    for(unsigned j=0; j<src_coeff.size(); ++j) { coeff[j] = src_coeff[j]; }
+2170	
+410^`2170	    `0:float gain        = std::get<0>(frame);`1:static float p_gain; p_gain     = std::get<0>(frame);
+2170^	    static float p_pitch; p_pitch   = pitch;
+2170^^	    static float p_breath; p_breath = breath;
+2170^^^	    static float p_buzz; p_buzz     = buzz;
+410	
+2165	    int hyst = -10;
+410	    std::vector<float> slice;
+2010	    unsigned retries = 0, retries2 = 0;
+2010	    static float average = 0;
+2011	    float amplitude = 0, amplitude_limit = 7000;
+2011	retry:;
+410	    for(unsigned n=0; n<n_samples; ++n)
+410	    {
+420	        // Generate buzz, at the specified voice pitch
+2161	        float pitch = get_with_hysteresis(p_pitch,-10);
+2161^	        float gain  = get_with_hysteresis(p_gain, hyst);
+2161	        hyst = -std::clamp(8.f + std::log10(gain), 1.f, 6.f);
+2160	
+420	        float w = (++count %= unsigned(rate/pitch)) / float(rate/pitch); // Goes linearly 0..1
+420`2158	        float f = `0:breath`1:get_with_hysteresis(p_breath,-12)`01: * float(-0.5 + drand48())
+420`2158	                + `0:buzz  `1:get_with_hysteresis(p_buzz,-12)  `01: * (std::exp2(w) - 1/(1+w));
+420	
+420	        // Apply the filter (LPC coefficients)
+420	        float sum = f;
+420`2155	        for(unsigned j=0; j<`1:src_`01:coeff.size(); ++j)
+420`2155	            sum -= `0:coeff[j]`1:get_with_hysteresis(coeff[j], hyst)`01: * bp[ (offset + MaxOrder - j) % MaxOrder ];
+2020	
+2020	        if(!std::isfinite(sum) || std::isnan(sum)) { broken = true; sum = 0.f; }
+420	
+420	        // Save it into a rolling buffer
+420	        float r = bp[++offset %= MaxOrder] = sum;
+430	
+430	        // And append the sample, multiplied by gain, into the PCM buffer
+431`2150	        float sample = r * std::sqrt(`0:gain`1:get_with_hysteresis(p_gain,hyst)`01:) * 32768.f;
+2030	        // Click prevention
+2031	        average = average*0.9993f + sample*(1 - 0.9993f);
+2031	        sample -= average;
+2032	        amplitude = amplitude*0.99f + std::abs(sample)*0.01f; if(!n) amplitude=std::abs(sample);
+2032	        if(n == 100 && amplitude > amplitude_limit) { ++retries2; amplitude_limit += 500; slice.clear(); if(retries2 < 100) goto retry; }
+431	        // Save sample
+431`432	        slice.push_back( std::clamp(sample, -32768.f, 3276`0:8`1:7`01:.f)*volume );
+410	    }
+2040	    if(broken) { for(auto& f: bp) f=0; slice.clear(); ++retries;
+	                 hyst = -1;
+2040	                 average = 0;
+2040	                 if(retries < 10) goto retry; }
+441	    audio_lock.lock();
+	    if(audio_pos >= 1048576)
+	    {
+	        audio.erase(audio.begin(), audio.begin()+audio_pos);
+	        audio_pos = 0;
+	    }
+442	    audio.insert(audio.end(), slice.begin(), slice.end());
+441^	    audio_lock.unlock();
+	    //if(retries || retries2) std::cout << "Retries for broken=" << retries << ", clipping=" << retries2 << '\n';
+402	}
+1	
+1	int main()
+1	{
+20	    std::string line(std::istreambuf_iterator<char>(std::cin),
+20^	                     std::istreambuf_iterator<char>());
+20	    auto phonemes = phonemize(line);
+230	
+230	    const unsigned rate = 44100;
+230	    MyAudioDriver player(rate);
+200	
+220	    float frame_time_factor = 0.01f;
+220	    float token_pitch       = 90;
+220	    float volume            = 0.7f;
+220	    float breath_base_level = 0.4f;
+220	    float voice_base_level  = 1.0f;
+200	    for(auto e: phonemes)
+200	    {
+210	        auto i = records.find(e.record);
+210	        if(i == records.end() && ((i = records.find(U'-')) == records.end()))
+210	            { std::cerr << "Missing record: " << e.record << '\n'; continue; }
+1000	
+1000	        // Vary the voice randomly
+1001	        token_pitch       = std::clamp(token_pitch       + float(drand48() - 0.5), 50.f, 170.f);
+1001^	        breath_base_level = std::clamp(breath_base_level + float(drand48() - 0.5) * 0.02f, 0.1f, 1.0f);
+1001^^	        voice_base_level  = std::clamp(voice_base_level  + float(drand48() - 0.5) * 0.02f, 0.7f, 1.0f);
+240	
+240	        // Calculate length of time to play the record
+241	        float    frame_time = rate * frame_time_factor;
+241	        unsigned n_samples  = e.n_frames * frame_time;
+210	
+244	        // Extract parameters from the record, and play it
+245	        auto& [record_mode, voice_level, alts] = i->second;
+245`246`247	        `2:float `12:breath = breath_base_level + (1.f-breath_base_level) * `012:(1.f - voice_level);
+249^	        float buzz   = voice_level * voice_base_level;
+248	        float pitch  = e.relative_pitch * token_pitch;
+246	
+269	        auto do_synth = [&](const auto& f, unsigned n) { synth(f, volume, breath, buzz, pitch, rate, n); return n; };
+250	        switch(record_mode)
+250	        {
+260	            case record_modes::choose_randomly:
+260	                do_synth(alts[std::rand() % alts.size()], n_samples);
+260	                break;
+261^^^	            case record_modes::play_in_sequence:
+266	                for(std::size_t a=0; a<alts.size(); ++a)
+261^^^`266`267	                `0:do_synth(alts[std::rand() % alts.size()], n_samples);`12:    do_synth(alts[a]`2:, (a+1)*n_samples/alts.size() - (a+0)*n_samples/alts.size());
+261^^^	                break;
+261^^^^^^	            case record_modes::trill:
+268	                for(unsigned n=0; n_samples > 0; ++n)
+261^^^^^^`268	                `0:do_synth(alts[std::rand() % alts.size()], n_samples);`1:    n_samples -= do_synth(alts[n % alts.size()], std::min(n_samples, unsigned(rate * 0.015f)));
+261^^^^^^`262*	                break;
+250	        }
+200	    }
+270	
+270	    while(audio_pos < audio.size()) { sf::sleep(sf::milliseconds(100)); }
+270	    sf::sleep(sf::milliseconds(1000));
+1	}
+	

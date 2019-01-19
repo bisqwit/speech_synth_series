@@ -1,0 +1,42 @@
+Narrate this:
+	
+	aa llee vvii jjoo
+	   mmuu nnyy ngää
+	   rröö
+	aa hhee ssii kkoo
+	   ppuu ttyy ddää
+	   ''öö
+
+done: ahesiko.wav
+
+Use Praat to create LPC file
+
+	sustain-a: (10)  223
+	sustain-e: (33)  245
+	sustain-i: 67    275
+	sustain-o: (87)  302
+	sustain-u: 118  (322)
+	sustain-y: (148) 346
+	sustain-ä: (170) 373
+	sustain-ö: (201) 398
+	
+	sustain-l: 19
+	sustain-v: 47
+	sustain-j: 78
+	sustain-m: 105
+	sustain-n: 129
+	sustain-ng:158
+	sustain-r: 186, 189
+	sustain-h: 229, 233, 234
+	sustain-s: 259
+	
+	release-m: 110
+	release-n: 136
+	release-ng: 164
+	release-k: 284, 291
+	release-p: 316
+	release-t: 342, 343
+	release-d: 366, (367)
+
+	glottal: 214,391
+	silence: 385,386

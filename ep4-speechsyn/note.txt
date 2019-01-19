@@ -1,0 +1,7 @@
+LPC to WAV converter
+— Read all lines; identify content;  save parameters (example: samplingPeriod). Save coefficients too.
+— Synthesize frame when a gain-line is encountered
+— Generate buzz (NOT sine wave!)
+— Apply LPC filter (much like FIR!)
+— Save sample into buffer
+— Finally save samples into WAV file

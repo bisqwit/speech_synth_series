@@ -28,7 +28,7 @@ Files: `ep3-finnish/`
 
 ## Episode 4: Speech Synthesizer
 
-Video link: TBD  
+Video link: TBA  
 Episode date: 2019-01-28  
 
 Files: `ep4-speechsyn/`

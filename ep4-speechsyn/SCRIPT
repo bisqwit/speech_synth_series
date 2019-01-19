@@ -1,0 +1,712 @@
+	[slide1]
+Let's create an English speech synthesizer
+	[slide2 for just a little moment, bling sfx]
+with Finnish accent!
+
+	[slide 3 with insets from the videos]
+Earlier, I made three videos providing
+background information for this video.
+One about origin of accents,
+one about how audio is produced by a computer,
+and one about Finnish phonology.
+
+If you haven’t watched them yet,
+I suggest you do so now.
+I have compiled them into a nice playlist,
+so you can watch them all in one sitting.
+Please do so now, and then come back here.
+Click the card that opens the playlist.
+I’ll be waiting here.
+
+	[still slide 3, but now with kdenlive effects that darken it]
+	[elevator music & ticking]
+
+	[slide 4]
+Unlike in the PCM video,
+replaying pre-recorded speech samples
+is not what I had in mind for this video.
+
+	[slide 5]
+To recap, here is the list of phonemes
+that will be building blocks
+of speech for this synthesizer.
+
+The bottom row lists phonemes that
+most Finns do not pronounce correctly,
+	[slide 6, fade from bottom up]
+but are instead aliased into
+other phonemes.
+I think for authenticity,
+we can do the same
+in our speech synthesizer.
+	[slide 7]
+This will help keep the design simple.
+
+	[slide 8]
+This is the resulting roster of phonemes.
+There are twenty two phonemes in total.
+
+Now there are many ways
+to go forward from here.
+
+One of the popular approaches,
+that leads into high quality speech synthesizers,
+
+is to create a list of
+all *pairs* of phonemes
+that can occur in normal speech.
+
+	[slide 9]
+For example, all consonents
+followed by all vowels;
+	[slide 10]
+but also all vowels followed
+by all consonants,
+and of course,
+	[slide 11]
+all pairs of vowels
+that can be reasonably
+pronounced,
+	[slide 12]
+and all pairs of consonants too.
+
+They would get a professional
+voice artist to record all
+these hundreds of samples,
+at constant pitch and constant stress.
+
+	[slide 13]
+For some speech synthesizers,
+even triplets might be recorded.
+
+Most likely, they would construct
+an artificial long piece of text,
+that contains all these phoneme pairs,
+	[speak monotonously]
+and the voice artist would be instructed
+to read it as monotonously
+as they possibly can.
+	[speak normally]
+Then someone would use
+an audio editing program,
+and meticulously cut pieces
+from the recording
+to populate this table.
+
+	[slide 14]
+The speech synthesizer would mix
+and select these samples at run time.
+
+ê	[segue into slide 15 by fade from top]
+	[sfx: Final Fantasy VI whelk transition]
+For example, this word, kivijalkakauppa,
+would be constructed from 15 voice samples,
+some of which are identical,
+and the synthesizer would seamlessly
+blend the end of one sample
+to the beginning of the next.
+
+	[use slide 16 to chroma-screen-slide back to slide 13]
+For my demo speech synthesizer,
+I will not do anything that complex.
+	[use slide 17 to chroma-screen-slide back to slide 8]
+I am going to operate
+on single phonemes only.
+
+Now I could just use recordings
+of myself speaking all these different phonemes,
+and it would not take
+very much time
+to do that at all.
+
+Instead, I designed to approach the problem
+in an old-fashioned way.
+
+	[slide 18]
+So, I made this chart.
+It shows how each of these phonemes
+might be constructed.
+
+	[use kdenlive effect to frame first 14]
+The first 14 phonemes have something in common:
+the vocal cords are vibrating throughout
+the phoneme.
+
+For example, I can say
+	[slide 19, use slide 20 to chroma-scroll]
+“mieleenjäävä mongolialainen viininviljelyalue”
+in a single unbroken voice,
+using all of those 14 phonemes.
+	[fade back to slide 18, then to slide 21]
+Let’s speak about the vowels first.
+
+
+Humans can speak,
+because we are able
+to change how our voice resonates
+within our mouth.
+
+	[FOOTAGE: aeiou.mkv -- Open Audacity]
+Bear with me for a moment,
+I am going to create
+an incredibly stupid
+sounding recording.
+
+	[FOOTAGE: Speak “aieouyiyu…”, use aeiou.wav]
+
+Now let’s clean up that audio,
+and save it on disk.
+	[FOOTAGE: Do Noise removal]
+	[FOOTAGE: Save]
+
+Next, let’s open the audio in Praat.
+	[FOOTAGE 2: Open Praat]
+Praat is an open source program
+for studying phonetics.
+	[FOOTAGE 2: Working in Praat]
+
+While I was doing that recording,
+you heard several different vowels.
+My voice stayed at a constant pitch,
+but different harmonic overtones
+were created by varying
+the shape of airways within my mouth.
+
+In this analysis window,
+we can actually see what happened.
+In the bottom there is a blue line
+indicating my voice pitch.
+It is relatively horizontal,
+which means there was not
+much variation in it.
+However, these red lines represent
+the harmonic overtones of my voice,
+and they are all over the place,
+changing smoothly between low and high values.
+
+In speech, these harmonic overtones
+are called formants.
+
+	[formants-wikipedia.png, effect:slide, paper sound]
+In Wikipedia there is a relatively brief
+article about formants,
+including this table on typical values
+for the formants of different vowels.
+
+	[again slide 22]
+Each of the 14 sounds have different
+formants that make up the sound.
+
+Formants are produced by different parts
+of the vocal tract, including
+the larynx [lärinks] and the pharynx [feirinks]. 
+For a speech synthesizer,
+the exact mechanism is not as important
+as the result.
+
+Additionally, with the /ʋ/ and /j/ sounds,
+there is some level of frication present.
+It is a little whooshing component.
+	[slide 23]
+The whooshing sounds a bit different
+in each consonant.
+It may be higher pitched or lower pitched,
+and it may be short or long.
+
+In other words, there is a sound source,
+and a tube that adds resonants
+and noises to the sound.
+
+	[filter-wikipedia.png, effect:slide, paper sound]
+This is called a source-filter model.
+
+	[lpc-wikipedia.png, effect:slide, paper sound]
+An audio compression method
+called Linear Predictive Coding
+is centered around this scheme.
+
+	[lpczoom-wikipedia.png]
+“LPC starts with the assumption
+that a speech signal is produced
+by a buzzer at the end of a tube (voiced sounds),
+with occasional added hissing and popping sounds
+(sibilants and plosive sounds).
+Although apparently crude,
+this model is actually a close approximation
+of the reality of speech production.”
+
+
+	[gsm-wikipedia.png]
+Do you have a cell phone?
+LPC happens to be the basis of GSM voice compression.
+If you have a cell phone,
+it contains an implementation of LPC.
+	
+So, I am going to use LPC also for this synthesizator.
+
+	[slide 23]
+In this table I have identified the component
+sounds that I need to synthesize.
+For the first 14 phonemes,
+we have voice that is modulated in different ways,
+plus some optional frication at the same time.
+
+The rest of the consonants are similar,
+except there is no voice simultaneously.
+
+I have split each phoneme into three parts:
+A beginning, a middle, and an end.
+Each phoneme may have a short sound of some
+kind in the beginning and in the end.
+For example, at the end of /m/,
+there is a subtle sound from the lips.
+
+The middle is the part of the phoneme
+that is stretched as long as it needs to be
+to produce short or long sounds.
+
+	[slide 24..29, use chromascreen to slide things in]
+	[silence just fades in]
+So the total budget of sounds that I need
+	is 17 sustain-sounds,
+7 release-sounds,
+1 glottal noise,
+and silence.
+Total 26 sound samples.
+
+	[FOOTAGE: ahesiko-makingof.mkv]
+To generate the samples,
+I recorded myself saying
+this sequence as monotonously
+as I could:
+	[Overlay: Horizontal scrolling simultaneous with playback]
+
+	aa llee vvii jjoo
+	   mmuu nnyy ngää
+	   rröö
+	aa hhee ssii kkoo
+	   ppuu ttyy ddää
+	   ''öö
+
+This recording was imported in Praat, 
+
+Then I edited the sound to make it completely monotonous.
+In hindsight, this step was completely redundant,
+but it was nice to learn that
+this research tool
+could double as an autotune program
+for bad singers.
+This is how the result sounds.
+
+This was then downsampled into 44 kHz,
+removing some mostly irrelevant detail.
+
+Then, I used Praat to convert this recording
+into a 48-order LPC.
+
+The resulting file looks like this.
+It’s a text file that contains… numbers.
+The audio was divided into frames,
+and for each frame,
+a set of coefficients and a gain is listed.
+
+	[FOOTAGE: pcm-lpc-wav.mkv]
+Next, I wrote a C++ program to play this file.
+The program reads all lines in file,
+and identifies their content.
+It saves important parameters,
+like the samplingPeriod,
+which is the inverse of the sampling rate,
+into variables.
+The coefficients are saved in an array.
+When it encounters the gain-line,
+it synthesizes the frame.
+
+The frame is synthesized next.
+It starts by generating an arbitrary buzz.
+Anything goes, as long as it has a clear frequency,
+and as long as it’s NOT a pure sine wave.
+
+Next, the LPC filter is applied.
+The filter shapes the frequency characteristics
+of the buzz that is fed to it,
+much like a FIR filter.
+Basically it’s a vocoder.
+The resulting sample is saved into a buffer.
+
+Once the file is done with,
+the buffer is saved into a wave file.
+
+	[ahesiko44100-48.wav]
+And this is how it sounds.
+48 was my choice for the order of the LPC data.
+
+	[howtostop-comparison.mkv]
+I made a comparison for different LPC orders.
+Here’s a short voice sample I took
+from one of doctor David Wood’s videos.
+And here’s how it sounds at different orders.
+
+I think that 48 was the sweet spot
+where artifacts were minimal,
+and increasing coefficients from 48
+did not significantly improve the audio
+to justify the increase of data.
+
+Now it is important to note that the LPC file
+is not a recording.
+It is a synthesis instruction.
+
+	[howtostop-modifications.mkv]
+For example, I can modify the “buzz” formula
+and replace it with white noise.
+	[overlay the window in which I compile it, use same clip, rectangular alpha mask, positioning]
+This changes the voice into a whisper.
+
+Or I can change the tempo.
+Make it four times slower.
+
+Or make it twice as fast!
+
+Or change the pitch. Make it higher.
+
+Or make it lower.
+
+My buzz formula deliberately contains
+a small amount of aspiration in it.
+If I remove the aspiration and
+leave just the buzz,
+the sound becomes a bit cleaner
+but also more synthetic sounding.
+
+These samples are recorded at 44 kilohertz.
+If I used a much smaller sample rate,
+such as 8 kilohertz,
+a much smaller number of coefficients
+would be enough.
+
+	[howtostop-ratecomparison.mkv]
+Here is the 16-coefficient LPC
+made from a 44 kilohertz recording:
+	[howtostop-16.wav]
+
+And here is a 16-coefficient LPC
+made from a 8 kilohertz recording:
+	[howtostop_8000-16.wav]
+
+The latter was a bit more muffled,
+like a telephone line,
+but had way less chirping artifacts in it.
+
+Lowering the sample rate
+allows you get more bang for your buck
+in terms of data transmission,
+and that’s why telephone lines
+and cellphones use a low sample rate.
+
+But there’s plenty of low-sample-rate
+speech synthesizers out there,
+and I want to use a good sample rate,
+so I’m going with 44 kilohertz and 48th-order LPC.
+
+	[guitool.mkv]
+So the LPC file is divided into frames,
+each frame representing the characteristics
+of the audio for a small slice of time.
+
+Next I spent a day writing this tool
+which is a modification of the WAV-writing program from earlier.
+This program allows you to adjust the parameters,
+such as breathiness and buzziness,
+in real time,
+and to choose any frame from the record to play.
+I used this to pick frames that,
+in my opinion,
+best represented the phonemes
+that I wanted to include
+in my speech synthesizer.
+
+	[wham sfx import-snapshot.png]
+Next, I wrote a tool that copypastes
+the frames that I picked,
+	[wham sfx records-snapshot.png]
+and it produced this file.
+It is C++ source code.
+
+Which brings me to the next part:
+C++ source code.
+
+We begin with the datastructure
+that was just generated.
+
+This saves each of the recordings
+	[quick flashback to slide 29, the recording slabs]
+as a structure.
+I decided to make it so that each
+recording can have multiple frames
+rather than just one,
+for better quality.
+
+The process of text-to-speech
+begins by reading the text input
+and converting it into a list of phonemes,
+or rather, prosody elements.
+
+First we start by normalizing the text,
+removing as much unnecessary detail
+as possible such as converting
+all of it into lowercase.
+
+I also went ahead and converted it into
+32-bit unicode,
+because dealing with text
+character-by-character
+is quite difficult in utf-8,
+when a single character can span across multiple bytes.
+I mean it's still not perfect even in 32-bit
+unicode because of combining diacritics
+and stuff, but you get what I mean.
+It helps with this application.
+
+Punctuation must also be taken care of.
+I decided to add special symbols,
+the angled brackets,
+that will be later used
+to control the pitch of the voice.
+
+I’ll just leave the pitch handling
+blank for now and get back to it later.
+
+Now that the text has been canonized
+and the work-in-progress string should
+only contain pronouncable letters
+and pause markers,
+let’s convert it into indexes
+into the sound recordings list.
+
+This code is a bit complicated
+for what it actually does;
+it basically just assigns
+a timing value for each phoneme,
+depending whether it is repeated or not.
+If you are interested in exploring
+it in detail,
+you can download the source code
+which can be found
+through links the video description,
+and explore it offline.
+
+(music?)
+
+Now that we have the list of records
+that we should use to play the speech,
+let’s go through them.
+
+Earlier I mentioned that in my design,
+each record may actually contain
+more than one frame.
+I decided upon three different styles
+for playback of these frames.
+The synthesizer might choose
+one of the frames to play by random,
+for some variation in the voice.
+Or it might play all of them in a sequence,
+for use whenever a single frame
+is not enough to capture the phoneme
+clearly enough.
+Or, in case of the trilled R,
+it might rapidly cycle
+through the frames.
+
+Whatever the method,
+we do need the actual synthesizer.
+
+So let’s tackle that part now.
+This is basically the same code
+as in the LPC-to-WAV converter
+I briefly showed earlier,
+but let’s go through it
+in more detail now.
+
+
+I am using SFML for this project.
+This  AudioDriver class
+is basically the exact same
+thing as in the PCM audio video
+I made earlier.
+Its job is just to read samples from an array
+and push them to the sound library.
+There is nothing too exciting about it.
+
+The interesting part
+is where the LPC frames
+get converted into wave audio.
+
+In the context of speech synthesis,
+LPC works so that first
+there is a source of noise.
+A buzzer.
+Something that generates
+a voice that has a pitch.
+Anything will do, including music,
+as long as it’s not a pure sine wave.
+
+It cannot be a pure sine wave,
+because the next step is applying
+a finite impulse response filter over it.
+This filter either attenuates
+or amplifies certain frequencies of the buzz,
+but it cannot make them up from nothing.
+
+The difference between the buzz
+and the filter output is saved into a buffer.
+
+The filter operates on the differences
+between the buzz and past outputs
+generated by the filter,
+so we use a rolling buffer.
+That’s what the modulo operator does.
+It makes sure the indexes loop back
+to the same indexes over and over again.
+
+The latest sample is sent to the speaker.
+In my design, the audio chunk is first
+saved into a temporary buffer,
+and then moved into the buffer that
+is shared by the audio engine.
+This is so that we can minimize
+the time that the audio buffer
+has to be locked.
+
+And this is what it sounds like.
+Mind you, this is going to be Finnish-language text right now.
+	[play finsyn-versio1-joona.ogg, until "saarnaa sitä vastaan", tot. 10s]
+
+It was already fairly understandable
+to an average Finnish listener,
+even if some phonemes were not
+as clear as they could be.
+
+There were three little problems
+with that short sample.
+
+First, the speech was quite monotonous.
+We could make it sound more interesting
+by smoothly altering the pitch
+and voice quality over time.
+
+However, that's not enough.
+I decided to actually model a typical
+flow of pitch in Finnish text reading.
+To do that, first,
+the text is divided into syllables
+using a rough algorithm
+that simply checks where the vowels
+and consonants are,
+and decides that a new syllable begins
+where there is a single consonant
+followed by a vowel.
+
+Then, a pitch curve is given to the
+sentence by keeping track where
+each sentence begins and where
+it ends, and giving a certain pitch
+to the first and last syllable
+and interpolating the rest.
+
+And this is what it sounds like.
+	[play finsyn-versio2-ruut.ogg, until "nälänhätä maahan" tot. 6s]
+	[keep on background]
+The second problem is quite obvious, and quite annoying.
+To be honest I have no idea
+what is the cause of the constant
+clicks and clacks heard in the audio,
+but I figured it’s best to do _something_ about them.
+
+My workaround for the clicks and pops
+is not very pretty;
+it is pretty much equivalent
+to fixing a broken television
+by beating it until it works,
+but hey, it gets the work done.
+
+I also decided to smooth out the frame
+boundaries a bit,
+by making all the synthesis parameters
+change smoothly, gradually.
+
+And this is what it sounds like.
+	[play finsyn-versio3-ps.ogg, until "päivät ja yöt", tot. 12s]
+	[keep on background]
+
+And that’s Finnish.
+
+But the title of this video was not
+”let’s make a Finnish speech synthesizer!”
+
+This video was about making a speech
+synthesizer with a Finnish ACCENT.
+
+So there is still work to do!
+I have to make it read English.
+
+	[english_convert_part1.png]
+To make it read English,
+I borrowed code from a very old speech
+syntesis program called Rsynth,
+which in turn borrows from a research paper
+written at United States Naval Research Laboratory
+in the year 1976.
+
+I simplified the code a bit so that the two
+source code files,
+about 900 lines of code,
+fit nicely in one screenful,
+and I got myself a function that converts
+English text into
+sort of an ASCII representation
+of the International Phonetic Alphabet.
+
+	[english_convert_part2.png]
+Then, I wrote a conversion table which
+reduces those phonemes into the
+set of phonemes used in Finnish.
+
+	[english_convert_part3.png]
+This function is then called in the
+part of my program that deals with
+text to phonemes conversion.
+
+	[english-convert-demo.mkv]
+[FROM FOOTAGE:]
+“And the result sounds like this: To be fair, it is very hard to understand.”
+“This is maybe not exactly like the typeecal Finnish accent,
+but it is pretty close.
+In a tongue-in-a-cheek manner.
+The text-to-phoneme ruleset is not exactly water-tight.”
+
+Many people have been joking about my accent,
+suggesting that maybe I wrote
+a speech synthesizer
+to do the voiceovers for my videos.
+
+Well, in case you ever wondered
+what happened if I were to do that,
+now you know!
+
+If you liked what you saw,
+thumbs-up the video
+and hit the subscribe button
+if you haven’t already.
+Hit the bell icon too,
+to make sure you get
+all notifications of my new uploads.
+
+Thanks go to my supporters at Patreon,
+Paypal, Liberapay and other sites.
+I have not addressed you in a video
+for a long time, but you are very much
+appreciated indeed.
+
+As always, have a nice day
+and a shalom in your life.

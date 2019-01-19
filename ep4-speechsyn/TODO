@@ -1,0 +1,25 @@
+DONE	Add example audio (teaser) right in the beginning of the video, replace opening speech
+  "Today I have something different for you."
+  "Let's create an English speech synthesizer with Finnish accent!"
+  Use "letscreate.flac"
+  Add "choir aah" when the Finnish flag appears.
+
+DONE	Edit the "watch previous video", remove "one about xxx" section
+
+DONE- Add the word “excitation signal” where “buzz” is mentioned
+
+DONE	At 7:58, use picture on page 5 of http://cs.haifa.ac.il/~nimrod/Compression/Speech/S4LinearPredictionCoding2009.pdf
+	  to explain the model
+
+DONE	A bit too much echo in ff5-worriless
+
+DONE- At 15:10, Show the LPC formula on the right side of screen
+  Use page 7 from http://cs.haifa.ac.il/~nimrod/Compression/Speech/S4LinearPredictionCoding2009.pdf
+
+DONE	At 17:17, overlay "constant" (I said contant)
+
+DONE	At 19:13, add scrolling captions like earlier
+
+DONE	At 19:31, decrease volume of song in the end
+
+DONE	Make WHEE quieter

@@ -1,0 +1,104 @@
+<?php
+
+/**
+Character set replacements:
+
+   Å‹ (eng)      -> Ã¡ (A0)
+   ÅŠ (ENG)      -> Ã­ (A1)
+   Å¡ (scaron)   -> Ã³ (A2)
+   Å¾ (zcaron)   -> Ãº (A3)
+   Â¯            -> Ã² (EE)
+**/
+
+define('IN_FILE', 'synth.cc.lst');
+define('SAVE_FILE', 'synth.cc');
+define('SHOW_PLAN', true);
+define('FINAL_OUTPUT', false);
+
+define('PLAN_SHOW_OUTSIDES', 3); // Max 3 lines outside visible area
+
+define('MAX_LEVEL', 99990);
+define('DEFAULT_SPEED', 'ÿÿ'); // Default speed: 18/16
+define('COMMENT_SPEED', 'ÿÿ'); // 3/16
+
+define('ATFIRST', DELAY1s."ÿÿ\r@del synth.cc\re synth.cc\ru");
+define('ATLAST', "ÿÿdsynth.cc\r".DELAY100s.DELAY100s."ÿÿx\r\rexit\r\r");
+
+define('FORCE_SPEED', false);
+#define('FORCE_SPEED', 4);
+
+define('FIRST_PLAN', 1);
+
+$screens = Array
+(
+  #        textdims  font  double c64
+  1   => [F7.SF7.SF1."136 60\r".F5, 136,60, 8,8,  0,0],
+);
+
+$line_anchor = Array
+(
+  # Line number to make the first visible line on screen,
+  # relative to the first line that gets edited
+  1 => 0,
+  49 => 9,
+  100 => 34,
+  120 => 21,
+  200 => 49,
+  210 => 32,
+  260 => 40,
+  410 => 44,
+  420 => 14,
+  1000 => 51,
+  1100 => 13, 1150 => 21,
+  2000 => 8
+);
+
+$selections = Array
+(
+  1 => Array(0 => '#include <'),
+  10 => Array(0 => 'record'),
+  11 => Array(0 => 'float/*'),
+  30 => Array(1 => 'prosody_element'),
+  50 => Array(0 => 'input'),
+  51 => Array(0 => 'std::u32string'),
+  53 => Array(0 => 'char32_t'),
+  71 => Array(0 => 'std::u32string_view'),
+  101 => Array(0 => ' elements;'),
+  115 => Array(0 => ',unsigned'),
+  210 => Array(0 => 'records.'),
+  220 => Array(0 => 'float '),
+  241 => Array(0 => 'frame'),
+  244 => Array(0 => 'record'), 245 => Array(0 => 'voice_level'), 246 => Array(0 => 'breath'), 247 => Array(0 => 'float '), 248 => Array(0 => '_pitch'),
+  250 => Array(0 => 'record_mode'),
+  267 => Array(0 => ')*n_samples/alts.size()'),
+  270 => Array(1 => 'sf::sleep(sf::milliseconds(100'),
+  300 => Array(1 => '#include <'),
+  310 => Array(1 => 'MyAudioDriver'),
+  330 => Array(1 => 'chunk_size'),
+  340 => Array(0 => 'sample'),
+  342 => Array(0 => 'audio_lock.lock();'),
+  401 => Array(0 => 'MaxOrder'), 402 => Array(0 => 'float'),
+  431 => Array(0 => '32768.f'),
+  442 => Array(0 => Array('audio.', 'slice.')),
+  1001 => Array(0 => 'token_pitch'),
+  2011 => Array(0 => ' amplitude'),
+  2031 => Array(0 => 'average'),
+  2032 => Array(0 => 'amplitude'),
+  2101 => Array(0 => 'get_with_hysteresis'),
+);
+
+$turbo_ranges = Array
+(
+  1 => 2,
+  30 => 8, 35 => 6,
+  55 => 2, 75 => 5, 76 => 5, 1100 => 6, 1120 => 7,
+  
+  115 => 6, 110 => 10, 120 => 10, 135 => 10, 136 => 10, 140 => 10, 145 => 10, 150 => 10, 146 => 10, 160 => 10,
+);
+
+// Delay performed before this number
+$bigdelay = Array(
+  1000,1100,
+  2000,
+  2100
+);
