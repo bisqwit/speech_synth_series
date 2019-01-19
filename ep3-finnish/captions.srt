@@ -1,0 +1,762 @@
+﻿1
+00:00:00,240 --> 00:00:01,240
+Good evening!
+
+2
+00:00:00,807 --> 00:00:04,517
+Let’s talk about Finnish
+language for a moment.
+
+3
+00:00:04,517 --> 00:00:05,517
+More specifically,
+
+4
+00:00:05,517 --> 00:00:09,347
+let’s focus on the phonemes
+of the Finnish language.
+
+5
+00:00:09,347 --> 00:00:11,387
+In Finnish,
+there are eight vowels:
+
+6
+00:00:11,387 --> 00:00:14,320
+a, e, i, o,
+u, y, ä and ö.
+
+7
+00:00:14,330 --> 00:00:18,610
+Each of these vowels is always
+spelled with the same letter,
+
+8
+00:00:18,610 --> 00:00:21,280
+so when you read
+this symbol, ⟨o⟩,
+
+9
+00:00:21,280 --> 00:00:23,710
+it is always
+pronounced /o/.
+
+10
+00:00:23,710 --> 00:00:25,710
+No exceptions.
+
+11
+00:00:25,710 --> 00:00:27,940
+Sometimes there can be two
+of these letters in row,
+
+12
+00:00:27,940 --> 00:00:29,490
+like this: ⟨oo⟩.
+
+13
+00:00:29,490 --> 00:00:31,420
+This means a long vowel.
+
+14
+00:00:31,420 --> 00:00:34,650
+Basically you just stretch
+the vowel a bit: /oː/.
+
+15
+00:00:34,650 --> 00:00:36,430
+The length is
+not exact science.
+
+16
+00:00:36,430 --> 00:00:39,790
+What is important is that
+the vowel sound does not change.
+
+17
+00:00:39,790 --> 00:00:43,340
+For instance, it does
+not become /oʊ/.
+
+18
+00:00:43,340 --> 00:00:45,770
+If you pronounce the long
+vowel as a diphthong,
+
+19
+00:00:45,770 --> 00:00:48,140
+your foreign background
+is exposed sooner –
+
+20
+00:00:48,140 --> 00:00:50,270
+than you can close your mouth.
+
+21
+00:00:50,270 --> 00:00:53,500
+Thus, Finnish has short
+vowels and long vowels.
+
+22
+00:00:53,500 --> 00:00:58,790
+a, aa, e, ee, i, ii, o, oo,
+u, uu, y, yy, ä, ää, ö, öö.
+
+23
+00:00:58,790 --> 00:01:01,240
+When two different vowels
+come in sequence,
+
+24
+00:01:01,240 --> 00:01:02,769
+like in the word “koe”,
+
+25
+00:01:02,769 --> 00:01:05,550
+the two vowels are both
+pronounced individually.
+
+26
+00:01:05,550 --> 00:01:06,780
+“Koe”.
+
+27
+00:01:06,780 --> 00:01:09,839
+In real life though,
+Finnish has many diphtongs,
+
+28
+00:01:09,839 --> 00:01:14,280
+but these are spontaneous
+observations rather than rules,
+
+29
+00:01:14,280 --> 00:01:17,019
+and it is perfectly
+fine to ignore them.
+
+30
+00:01:17,019 --> 00:01:19,729
+We can also ignore
+the long vowels,
+
+31
+00:01:19,729 --> 00:01:21,970
+because it is basically
+just the same vowel –
+
+32
+00:01:21,970 --> 00:01:25,680
+repeated twice in a row,
+making it twice as long.
+
+33
+00:01:25,680 --> 00:01:27,500
+As a general rule,
+
+34
+00:01:27,500 --> 00:01:30,240
+the vowel sound is unaffected
+by the consonant –
+
+35
+00:01:30,240 --> 00:01:32,250
+that precedes or follows it.
+
+36
+00:01:32,250 --> 00:01:35,120
+If you nasalize the vowel
+right before a consonant,
+
+37
+00:01:35,120 --> 00:01:37,979
+your Swedish background
+becomes immediately apparent.
+
+38
+00:03:05,763 --> 00:03:08,764
+The rest of phonemes
+are consonants.
+
+39
+00:03:08,764 --> 00:03:11,323
+The only trill
+consonant is r.
+
+40
+00:03:11,323 --> 00:03:16,253
+The approximants
+are v, l and j.
+
+41
+00:03:16,253 --> 00:03:19,644
+The nasal consonants
+are n and m,
+
+42
+00:03:19,644 --> 00:03:22,274
+but there is also
+the ng sound /ŋ/,
+
+43
+00:03:22,274 --> 00:03:23,774
+which is an exception,
+
+44
+00:03:23,774 --> 00:03:25,774
+because it is the only
+sound in Finnish –
+
+45
+00:03:25,774 --> 00:03:28,363
+that is denoted by a
+sequence of two letters –
+
+46
+00:03:28,363 --> 00:03:31,194
+and does not have
+its own symbol.
+
+47
+00:03:31,194 --> 00:03:35,234
+The fricative consonants
+are s and h.
+
+48
+00:03:35,234 --> 00:03:38,414
+The phoneme f occurs
+in loan words,
+
+49
+00:03:38,414 --> 00:03:41,114
+but it is not natively
+a part of Finnish.
+
+50
+00:03:41,114 --> 00:03:43,104
+There is just
+one sibilant,
+
+51
+00:03:43,104 --> 00:03:46,844
+and it is the voiceless
+alveolar sibilant, /s/.
+
+52
+00:03:46,844 --> 00:03:51,734
+The post-alveolar sibilant /ʃ/
+occurs in some loan words,
+
+53
+00:03:51,734 --> 00:03:54,734
+and there is actually a letter
+in the Finnish alphabet for it,
+
+54
+00:03:54,734 --> 00:03:59,034
+but most Finns cannot pronounce
+this sound without practice.
+
+55
+00:03:59,034 --> 00:04:01,964
+The sibilant sounds
+are never voiced.
+
+56
+00:04:01,964 --> 00:04:06,684
+Most Finns cannot even pronounce
+sounds like /z/ and /ʒ/ –
+
+57
+00:04:06,684 --> 00:04:08,134
+without practice.
+
+58
+00:04:08,134 --> 00:04:09,844
+If you use those sounds,
+
+59
+00:04:09,844 --> 00:04:13,524
+the listener immediately guesses
+your background is Slavic.
+
+60
+00:04:13,524 --> 00:04:15,694
+All of the above
+are like vowels,
+
+61
+00:04:15,694 --> 00:04:18,494
+in that they can be
+either short or long.
+
+62
+00:04:18,494 --> 00:04:23,104
+For example, keno, kenno,
+kisa, kissa, tuli, and tulli –
+
+63
+00:04:23,104 --> 00:04:24,884
+are different words,
+
+64
+00:04:24,884 --> 00:04:27,034
+These six words all
+have different meanings –
+
+65
+00:04:27,034 --> 00:04:28,544
+that have nothing in common.
+
+66
+00:04:28,544 --> 00:04:31,544
+Again, the length
+is not exact science;
+
+67
+00:04:31,544 --> 00:04:34,074
+as long as it is clear
+from your speech,
+
+68
+00:04:34,074 --> 00:04:36,884
+that the phoneme is
+slightly longer than normal,
+
+69
+00:04:36,884 --> 00:04:38,864
+it counts as a long phoneme.
+
+70
+00:04:38,864 --> 00:04:40,244
+It is important to note —
+
+71
+00:04:40,244 --> 00:04:42,864
+that it is entirely
+a timing issue,
+
+72
+00:04:42,864 --> 00:04:45,894
+not an emphasis
+or stress issue.
+
+73
+00:04:45,894 --> 00:04:50,454
+Well, there are no words
+with a long v or a long j,
+
+74
+00:04:50,454 --> 00:04:52,084
+but if there were,
+
+75
+00:04:52,084 --> 00:04:55,324
+all Finns would know
+how to pronounce them.
+
+76
+00:04:55,324 --> 00:04:57,604
+Finally there are
+plosive consonants:
+
+77
+00:04:57,604 --> 00:05:00,394
+The unvoiced k, p, and t,
+
+78
+00:05:00,394 --> 00:05:03,674
+and their voiced counterparts,
+g, b, and d.
+
+79
+00:05:03,674 --> 00:05:08,584
+However, b and g sounds only
+occur in words of foreign origin,
+
+80
+00:05:08,584 --> 00:05:13,304
+and some dialects do not
+recognize the voiced plosives at all.
+
+81
+00:05:13,304 --> 00:05:16,614
+In Finnish, the plosives
+are not aspirated,
+
+82
+00:05:16,614 --> 00:05:22,014
+so instead of khaptheeni,
+you would say kapteeni.
+
+83
+00:05:22,014 --> 00:05:24,454
+If you aspirate your consonants,
+
+84
+00:05:24,454 --> 00:05:28,234
+the listener immediately guesses
+your background is English.
+
+85
+00:05:28,234 --> 00:05:30,834
+The plosives can also
+be short or long.
+
+86
+00:05:30,834 --> 00:05:35,504
+For example, kuka, kukka,
+mato, matto, rapu and rappu –
+
+87
+00:05:35,504 --> 00:05:36,864
+are all different words,
+
+88
+00:05:36,864 --> 00:05:39,714
+with meanings that
+have nothing in common.
+
+89
+00:05:39,714 --> 00:05:41,943
+Because the plosive consonants
+are characterized –
+
+90
+00:05:41,943 --> 00:05:44,573
+by a sudden sound that
+follows a silence,
+
+91
+00:05:44,573 --> 00:05:47,323
+the difference between
+a short and long plosive –
+
+92
+00:05:47,323 --> 00:05:51,064
+is how long the air
+is held before released.
+
+93
+00:05:51,064 --> 00:05:53,474
+Finally there is the
+glottal stop, /ʔ/.
+
+94
+00:05:53,474 --> 00:05:56,424
+This sound occurs sometimes
+before a vowel –
+
+95
+00:05:56,424 --> 00:05:57,964
+when the speaker
+wants to be clear –
+
+96
+00:05:57,964 --> 00:06:00,823
+where the syllable break
+or word break is,
+
+97
+00:06:00,823 --> 00:06:03,503
+or to emphasize
+the beginning of a word.
+
+98
+00:06:03,503 --> 00:06:07,223
+Example, “mä en halua”
+means I don’t want,
+
+99
+00:06:07,223 --> 00:06:12,103
+but “mä’en halua” means
+I really don’t want.
+
+100
+00:06:12,103 --> 00:06:14,573
+Sometimes the exact quality
+of the consonant can change –
+
+101
+00:06:14,573 --> 00:06:17,214
+depending on the
+following phonemes.
+
+102
+00:06:17,214 --> 00:06:21,464
+For example, if an "n" letter
+is followed by a "p" letter,
+
+103
+00:06:21,464 --> 00:06:25,734
+almost everyone pronounces
+it as "m" instead of "n".
+
+104
+00:06:25,734 --> 00:06:29,623
+For example, "kumpa"
+instead of "kunpa".
+
+105
+00:06:29,623 --> 00:06:32,973
+If the "n" letter is followed
+by a "k" letter instead,
+
+106
+00:06:32,973 --> 00:06:36,183
+most readers pronounce
+it as "ng",
+
+107
+00:06:36,183 --> 00:06:38,323
+for example "ongko"
+instead of "onko".
+
+108
+00:06:38,323 --> 00:06:42,654
+The “h” letter can be pronounced
+in a number of different ways –
+
+109
+00:06:42,654 --> 00:06:45,654
+depending on the
+surrounding vowels.
+
+110
+00:06:45,654 --> 00:06:48,814
+Examples: “pehmeä”, “lahja”, “pihvi”.
+
+111
+00:06:48,814 --> 00:06:52,334
+Each of these were articulated
+in a different part of the mouth.
+
+112
+00:06:52,334 --> 00:06:57,454
+These three phonemes are called
+allophones for the phoneme “h”,
+
+113
+00:06:57,454 --> 00:07:01,133
+and most native speakers are
+not even aware of the differences.
+
+114
+00:07:01,134 --> 00:07:06,434
+Again, these are spontaneously
+arising phenomena rather than rules.
+
+115
+00:07:06,434 --> 00:07:09,574
+Note, that unlike in
+Hebrew and English,
+
+116
+00:07:09,634 --> 00:07:11,734
+if there is a “h” in the text,
+
+117
+00:07:11,734 --> 00:07:15,494
+it’s a consonant, and it is
+always pronounced as “h”.
+
+118
+00:07:15,494 --> 00:07:18,054
+There are no silent letters in Finnish.
+
+119
+00:07:18,074 --> 00:07:21,434
+There is one curious exception,
+namely gemination.
+
+120
+00:07:21,434 --> 00:07:22,674
+In some cases,
+
+121
+00:07:22,674 --> 00:07:26,334
+a consonant is pronounced long
+even if it’s written short.
+
+122
+00:07:26,334 --> 00:07:31,814
+For example, instead of “syö hernekeittoa”
+you would say “syö hhernekkeittoa”.
+
+123
+00:07:31,814 --> 00:07:33,994
+I’m not totally sure why this happens.
+
+124
+00:07:33,994 --> 00:07:35,754
+It just does.
+
+125
+00:07:35,754 --> 00:07:39,114
+It is not something that could cause
+misunderstandings either way,
+
+126
+00:07:39,114 --> 00:07:41,114
+but a curious detail nonetheless.
+
+127
+00:07:41,114 --> 00:07:44,694
+Note that you can’t just go randomly
+duplicating phonemes.
+
+128
+00:07:44,694 --> 00:07:48,594
+If you pronounced “älä menekkään”
+as “älämmenekkään”,
+
+129
+00:07:48,594 --> 00:07:50,114
+the listener would have to do –
+
+130
+00:07:50,194 --> 00:07:52,934
+a double take to understand
+what you just said.
+
+131
+00:07:52,934 --> 00:07:55,074
+A little bit about timings.
+
+132
+00:07:55,074 --> 00:07:58,874
+Different languages have different ideas
+about how speech is timed.
+
+133
+00:07:58,874 --> 00:08:01,854
+In English and Swedish,
+for example,
+
+134
+00:08:01,854 --> 00:08:06,014
+the time between consecutive
+stressed syllables is fairly constant.
+
+135
+00:08:06,014 --> 00:08:09,814
+In French, each syllable takes
+roughly the same time.
+
+136
+00:08:09,814 --> 00:08:13,414
+In Japanese, each syllable also
+takes roughly the same time,
+
+137
+00:08:13,414 --> 00:08:19,094
+except that syllables with a long vowel are
+pronounced twice as long as regular syllables.
+
+138
+00:08:19,094 --> 00:08:21,094
+But Finnish is not like that.
+
+139
+00:08:21,094 --> 00:08:23,014
+Finnish is different.
+
+140
+00:08:23,014 --> 00:08:26,354
+Basically, each phoneme,
+represented by a single letter,
+
+141
+00:08:26,354 --> 00:08:28,354
+takes a constant time.
+
+142
+00:08:28,354 --> 00:08:33,174
+Long phonemes are represented by two letters,
+and they take twice the time.
+
+143
+00:08:33,254 --> 00:08:35,334
+There are a few exceptions though.
+
+144
+00:08:35,334 --> 00:08:39,894
+Again, things that just rise
+spontaneously from practice.
+
+145
+00:08:39,974 --> 00:08:41,514
+So, to recap:
+
+146
+00:08:41,514 --> 00:08:44,214
+Eight vowels,
+and about twelve consonants.
+
+147
+00:08:44,474 --> 00:08:47,694
+Phonetically Finnish is quite
+a simple language.
+
+148
+00:08:47,694 --> 00:08:51,654
+This is the phonetic vocabulary
+that a Finnish person has,
+
+149
+00:08:51,654 --> 00:08:53,414
+when they speak
+any foreign language.
+
+150
+00:08:53,414 --> 00:08:56,594
+As I explained
+in another video,
+
+151
+00:08:56,614 --> 00:09:00,614
+whichever phonetic background a person
+has from their native language –
+
+152
+00:09:00,734 --> 00:09:03,634
+largely determines what
+kind of accent they have –
+
+153
+00:09:03,634 --> 00:09:05,594
+when speaking another language.
+
+154
+00:09:05,654 --> 00:09:08,454
+The simplicity of Finnish phonetics
+contributes to –
+
+155
+00:09:08,514 --> 00:09:11,834
+the quite recognizable accent
+that Finnish people often have –
+
+156
+00:09:11,854 --> 00:09:12,994
+when they speak a language –
+
+157
+00:09:12,994 --> 00:09:16,394
+that has phonetically a
+significantly different makeup,
+
+158
+00:09:16,394 --> 00:09:17,794
+such as English.
+
+159
+00:09:17,794 --> 00:09:21,914
+We may be revisiting this topic
+soon in another video.
+
+160
+00:09:22,094 --> 00:09:25,874
+Stay tuned, and have
+a shalom in your life.
+
