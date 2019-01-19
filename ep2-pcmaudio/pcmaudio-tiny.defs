@@ -1,0 +1,52 @@
+<?php
+
+define('IN_FILE', 'pcmaudio-tiny.cc.lst');
+define('SAVE_FILE', 'pcmtest.cc');
+define('SHOW_PLAN', true);
+define('FINAL_OUTPUT', false);
+
+define('PLAN_SHOW_OUTSIDES', 3); // Max 3 lines outside visible area
+
+define('MAX_LEVEL', 99990);
+define('DEFAULT_SPEED', 'ÿÿ'); // Default speed: 20/16
+define('COMMENT_SPEED', 'ÿÿ'); // 2/16
+
+define('ATFIRST', DELAY1s."ÿÿ\re conj.y\ru");
+define('ATLAST', "ÿÿdpcmtest.cc\r".DELAY100s."ÿÿx\r\rexit\r\r");
+
+define('FORCE_SPEED', false);
+#define('FORCE_SPEED', 4);
+
+define('FIRST_PLAN', 10);
+
+$screens = Array
+(
+  #        textdims  font  double c64
+  10   => [SF1."106 25\r",                    106,25, 9,16,  0,0],
+  30   => [F8.UP.UP.UP.UP.RT."\r".F2.F2.F2.F2, 106,34, 9,14,  0,0],
+  130  => [F8.UP.UP.RT."\r".F2,                106,60, 8, 8,  0,0],
+);
+
+$line_anchor = Array
+(
+  # Line number to make the first visible line on screen,
+  # relative to the first line that gets edited
+  10 => 0,
+  #60 => 18,
+  #130 => 23
+);
+
+$selections = Array
+(
+);
+
+$turbo_ranges = Array
+(
+);
+
+// Delay performed before this number
+$bigdelay = Array(
+  30,  // main program done
+  50,  // audio initialization done
+  130, // created the callback
+);

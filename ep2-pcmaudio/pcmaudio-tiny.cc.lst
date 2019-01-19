@@ -1,0 +1,58 @@
+10	#include <SDL.h>
+20	
+20	struct MyAudioEngine
+20	{
+30	    SDL_AudioSpec spec {};
+25`30`135	    unsigned `12:     `012:pitch = 0`2:, wave_counter = 0`012:;
+30	
+30	    MyAudioEngine()
+30	    {
+40	        spec.freq     = 96000;         // 96000 samples per second (96 kHz)
+40	        spec.format   = AUDIO_F32SYS;  // Sample format: 32-bit float (system-defined byte order)
+40	        spec.channels = 1;             // Number of channels: 1 (mono)
+52	        spec.samples  = 4096;          // Buffer size in samples (chosen rather arbitrarily)
+50	        spec.userdata = this;
+50	        spec.callback = [](void* param, Uint8* stream, int len)
+50	                        {
+55	                            ((MyAudioEngine*)param)->callback((float*) stream, len / sizeof(float));
+50	                        };
+40	        auto dev = SDL_OpenAudioDevice(nullptr, 0, &spec, &spec, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+40	        SDL_PauseAudioDevice(dev, 0);
+30	    }
+60	
+60	    void callback(float* target, int num_samples)
+60	    {
+130	        // Generate "num_samples" samples of square-wave
+130	        // that alternates between signal levels -0.5 and +0.5
+120	        for(int position = 0; position < num_samples; ++position)
+120	        {
+126	            // Generate one sample
+125`140	            float sample = `0:0;`1:((wave_counter / spec.freq) % 2 == 0) ? -0.5f : 0.5f;
+140	            wave_counter += pitch*2;
+127	            // And put it into the buffer
+125	            target[position] = sample;
+120	        }
+150	        // Note: This function generates aliased square-wave for simplicity.
+150	        // To learn how to generate "perfect" noiseless band-limited square-wave
+150	        // that sounds good even at low sampling rates, read this article: 
+150	        // https://www.nayuki.io/page/band-limited-square-waves
+60	    }
+20	};
+10	
+10	int main()
+10	{
+10	    // Initialize SDL audio.
+10	    SDL_InitSubSystem(SDL_INIT_AUDIO);
+24	    MyAudioEngine beeper;
+24	
+29	    // Toggle the pitch between 440 Hz and 352 Hz every 0.5 seconds
+24	    for(;;)
+24	    {
+26	        beeper.pitch = 440;
+26	        SDL_Delay(500);
+28	
+27^^	        beeper.pitch = 352;
+27^^	        SDL_Delay(500);
+24	    }
+10	}
+10	

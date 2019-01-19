@@ -1,0 +1,291 @@
+This is an audio processing
+software called Audacity.
+
+When the computer records
+sound through a microphone,
+
+the software shows a visual
+representation of the recording,
+
+and it looks like this.
+
+Most of you have seen
+this kind of stuff before,
+
+but not many understand
+what it actually represents.
+
+I mean,
+
+you can sort of see –
+
+that loud sounds
+produce fat sausages –
+
+and quiet sounds
+produce thin sausages.
+
+When you zoom it in,
+
+you can see it is actually
+not really a lumpy snake,
+
+but actually, a waveform.
+
+It represents the changes
+of something during time.
+
+Time goes from
+left to right,
+
+and something is
+being represented –
+
+by the height
+of the line –
+
+that varies many many
+times in a second.
+
+Let’s make an experiment.
+
+I have here a loudspeaker,
+
+that is connected
+into this computer.
+
+What happens,
+
+if I edit the waveform –
+
+so that it goes constantly
+from up to down and up again?
+
+Watch the diaphragm
+of the speaker!
+
+It goes up and down just
+like the curve on the screen.
+
+Now watch what happens if
+I increase the frequency,
+
+by making the waveform
+change more rapidly –
+
+with respect to time.
+
+First, 20 Hertz.
+
+Then, 40 Hertz.
+
+Then, 100 Hertz.
+
+400!
+
+2000!
+
+It becomes impossible –
+
+to discern the motions of the
+diaphragm by the naked eye,
+
+because it is
+vibrating so fast,
+
+but the changes are sensed
+very very clearly by the ear.
+
+This is because –
+
+the diaphragm of the speaker
+pushes air in front of it,
+
+and these changes in air
+pressure are sensed by your ear.
+
+Some of you maybe noticed –
+
+the noise did not exactly
+sound like pure sinewave.
+
+That’s because I actually
+destroyed the speaker –
+
+by driving too
+high voltage to it,
+
+when I attempted to
+visualize the infrasound.
+
+Don’t do this at home!
+
+And that’s how the
+speaker produces sound.
+
+Now, let’s see how to
+do this in software.
+
+SDL is a library –
+
+that is commonly used to add
+input, video, and audio –
+
+processing into programs.
+
+There are many libraries
+that can do the same.
+
+In most of them the
+principles are similar.
+
+I am not going to argue
+superiority of any of them;
+
+this is just what I use
+to get things done.
+
+This is the documentation
+page describing SDL audio.
+
+A couple of important
+functions are highlighted.
+
+This example program will
+be a simple beeper –
+
+that alternates between
+different tones –
+
+like a Lego police car.
+
+First we initialize
+the audio,
+
+by configuring
+the standard parameters:
+
+The audio sampling rate,
+that is –
+
+how many times in a second
+we want to be able –
+
+to change the speaker
+diaphragm position,
+
+the audio format,
+
+which is just how accurately
+we want to control the diaphragm,
+
+and the number of
+audio channels to have.
+
+The audio system requires
+a steady stream of audio data –
+
+in order to produce sound.
+
+In SDL and many other libraries,
+
+the system allows you to define
+a function from your own code –
+
+that the library will call
+whenever it needs more audio data.
+
+This called a “callback”.
+
+The callback function
+is supposed to write –
+
+the list of speaker
+diaphragm positions –
+
+into an array supplied
+by the library.
+
+These positions are consumed
+by the rate you specified.
+
+Here, for example,
+
+they are consumed at a rate of
+96000 samples per second,
+
+assuming the library
+didn’t change the rate –
+
+when the device was opened.
+
+This example code just
+generates square wave,
+
+that is, it alternates
+between -0.5 and +0.5,
+
+so that it goes the full
+cycle 440 times per second,
+
+or whichever frequency is
+specified in the “pitch” variable.
+
+It is not the
+most efficient solution –
+
+and not the best sounding one,
+
+but simple enough that
+it gets the job done.
+
+And this is how it sounds.
+
+Because computers
+used to be very slow –
+
+and storage space
+used to be very expensive,
+
+in the past there were
+signal generator chips,
+
+that could generate
+this kind of signals –
+
+by just feeding the right kind
+of electrical inputs to them.
+
+Some of those chips were
+very sophisticated –
+
+and capable of quite
+impressive audio.
+
+But of course you don’t need
+to be limited to simple beeps.
+
+Your callback function
+can do anything,
+
+including generate music –
+
+or replay speech samples.
+
+“Who can find a virtuous woman?
+For her price is far above rubies.”
+
+“The heart of her husband
+doth safely trust in her […]”
+
+Stay tuned when we launch
+this little snippet of code –
+
+into complex action,
+in a future video –
+
+that requires still
+more theoretical background.
+
+Have a nice day.
+Take care, and be well.
