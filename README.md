@@ -3,6 +3,8 @@
 Material for my video series about creating a peculiar
 English-language speech synthesizer with Finnish accent.
 
+Playlist: https://youtube.com/playlist?list=PLzLzYGEbdY5nhusqFSciBgVfWmrSRIsWJ
+
 ## Episode 1: Origin of Accents
 
 Video link: https://youtu.be/SJZlIQqjVS4  
@@ -24,9 +26,9 @@ Episode date: 2019-01-18
 
 Files: `ep3-finnish/`
 
-## Chapter 4: Speech Synthesizer
+## Episode 4: Speech Synthesizer
 
-Video link: https://youtu.be/Jcymn3RGkF4  
+Video link: TBD  
 Episode date: 2019-01-28  
 
 Files: `ep4-speechsyn/`
