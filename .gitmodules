@@ -1,0 +1,6 @@
+[submodule "ep4-speechsyn/imgui"]
+	path = ep4-speechsyn/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "ep4-speechsyn/imgui_software_renderer"]
+	path = ep4-speechsyn/imgui_software_renderer
+	url = https://github.com/emilk/imgui_software_renderer
